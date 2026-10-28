@@ -1,15 +1,19 @@
 *.iml
 .gradle
 /local.properties
+
+# Ustawienia IDE (.idea)
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
+# Systemowe i kompilacja
 .DS_Store
 /build
+/app/build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
