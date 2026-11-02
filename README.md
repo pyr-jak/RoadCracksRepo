@@ -1,1 +1,1 @@
-Frytunia mmmm, fryzurka z pierwszego tłoczenia
+Aplikacja Mobilna RoadCracks - Mapowanie nierówności drogowych
