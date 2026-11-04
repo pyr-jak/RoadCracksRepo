@@ -40,7 +40,7 @@ fun MapScreen(context: android.content.Context) {
             shadowElevation = 0.dp,
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 16.dp, top = 75.dp)
+                .padding(start = 16.dp, top = 150.dp)
                 .size(width = 75.dp, height = 140.dp)
                 .clickable {
                     Toast.makeText(context, "Kliknięto lewy owal!", Toast.LENGTH_SHORT).show()
@@ -62,7 +62,7 @@ fun MapScreen(context: android.content.Context) {
             shadowElevation = 0.dp,
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(end = 16.dp, top = 75.dp)
+                .padding(end = 16.dp, top = 150.dp)
                 .size(width = 75.dp, height = 140.dp)
                 .clickable {
                     Toast.makeText(context, "Kliknięto prawy owal!", Toast.LENGTH_SHORT).show()

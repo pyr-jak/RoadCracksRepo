@@ -9,7 +9,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.FilledTonalButton
@@ -139,13 +140,21 @@ internal fun UserLocationMap(modifier: Modifier = Modifier) {
     }
 
     Column(modifier) {
-        key(mapGeneration) {
-            MapLibreMapView(
+        BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+            val weatherWidth = (maxWidth - 198.dp).coerceIn(112.dp, 184.dp)
+            key(mapGeneration) {
+                MapLibreMapView(
+                    location = userLocation,
+                    recenterRequest = recenterRequest,
+                    onReady = { mapReady = true; mapError = null },
+                    onError = { mapError = it },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            MapWeatherCard(
                 location = userLocation,
-                recenterRequest = recenterRequest,
-                onReady = { mapReady = true; mapError = null },
-                onError = { mapError = it },
-                modifier = Modifier.weight(1f).fillMaxWidth()
+                hasLocationPermission = permissionGranted,
+                modifier = Modifier.align(Alignment.TopCenter).padding(top = 16.dp).width(weatherWidth)
             )
         }
         LocationControls(status, actionLabel) {
@@ -198,11 +207,11 @@ private fun LocationControls(status: String, actionLabel: String, onAction: () -
 @Composable
 private fun MapPreviewPlaceholder(modifier: Modifier) {
     Column(modifier) {
-        Box(
+        BoxWithConstraints(
             modifier = Modifier.weight(1f).fillMaxWidth().background(Color(0xFFE3E8E5)),
-            contentAlignment = Alignment.Center
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            val weatherWidth = (maxWidth - 198.dp).coerceIn(112.dp, 184.dp)
+            Column(modifier = Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(Icons.Default.Place, contentDescription = null,
                     modifier = Modifier.size(64.dp), tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.height(8.dp))
@@ -210,6 +219,11 @@ private fun MapPreviewPlaceholder(modifier: Modifier) {
                 Text("Mapa działa na telefonie lub emulatorze",
                     style = MaterialTheme.typography.bodySmall)
             }
+            MapWeatherCard(
+                location = null,
+                hasLocationPermission = true,
+                modifier = Modifier.align(Alignment.TopCenter).padding(top = 16.dp).width(weatherWidth)
+            )
         }
         LocationControls("Twoja lokalizacja", "Moja pozycja") {}
     }
